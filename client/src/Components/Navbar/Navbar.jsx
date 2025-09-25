@@ -8,7 +8,7 @@ export default function Navba({ user, setUser }) {
 
 
   const signoutHandler = async () => {
-    await axiosInstance.delete('/auth/logout');
+    await axiosInstance.delete('/auth/signout');
     setUser(null);
   };
 
