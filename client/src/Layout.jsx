@@ -2,10 +2,10 @@ import React from 'react';
 import { Outlet } from 'react-router';
 import Header from './Components/Header';
 
-export default function Layout() {
+export default function Layout({user, setUser}) {
   return (
     <>
-       <Header />
+       <Header user={user} setUser={setUser} />
        <main className='container'>
          <Outlet />
        </main>
