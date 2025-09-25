@@ -1,5 +1,6 @@
 const express = require('express');
-const morgan = require('morgan')
+const morgan = require('morgan');
+const cookieParser = require('cookie-parser');
 
 const categoryRouter = require('./Routes/categoryRouter');
 const wordRouter = require('./Routes/wordRouter');
