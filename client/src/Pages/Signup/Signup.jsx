@@ -9,15 +9,14 @@ export default function Signup({ setUser }) {
     password: '',
   });
 
-    const submitHandler = async (e) => {
-      e.preventDefault();
-      const response = await axiosInstance.post("/auth", form);
-      setUser(response.data.user);
-      setAccessToken(response.data.accessToken);
-    };
+  const submitHandler = async (e) => {
+    e.preventDefault();
+    const response = await axiosInstance.post('/auth/signup', form);
+    setUser(response.data.user);
+    setAccessToken(response.data.accessToken);
+  };
 
-    const changeHandler = (e) =>
-      setForm({ ...form, [e.target.name]: e.target.value });
+  const changeHandler = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
   return (
     <>
@@ -27,9 +26,9 @@ export default function Signup({ setUser }) {
         <input
           type="text"
           id="name"
-          name="name"
+          name="login"
           onChange={changeHandler}
-          value={form.name}
+          value={form.login}
         /><br></br>
         <label htmlFor="email">Почта</label><br></br>
         <input
@@ -51,4 +50,22 @@ export default function Signup({ setUser }) {
       </form>
     </>
   );
+}
+
+{
+  /* <Form>
+        <Form.Group className="mb-3" controlId="formGroupEmail">
+          <Form.Label>Введите логин</Form.Label>
+          <Form.Control type="email" placeholder="Введите логин" />
+        </Form.Group>
+        <Form.Group className="mb-3" controlId="formGroupEmail">
+          <Form.Label>Введите Email</Form.Label>
+          <Form.Control type="email" placeholder="Email" />
+        </Form.Group>
+        <Form.Group className="mb-3" controlId="formGroupPassword">
+          <Form.Label>Пароль</Form.Label>
+          <Form.Control type="password" placeholder="Введите пароль" />
+        </Form.Group>
+        <Button variant="primary">Войти</Button>
+      </Form> */
 }

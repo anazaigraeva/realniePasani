@@ -3,7 +3,7 @@ import BSCard from 'react-bootstrap/Card';
 
 
 export default function Card({ category }) {
-  console.log({category})
+  // console.log({category})
   
   return (
     <BSCard>
