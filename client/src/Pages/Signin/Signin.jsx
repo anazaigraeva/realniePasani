@@ -11,7 +11,7 @@ export default function Login({setUser}) {
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    const response = await axiosInstance.post("/auth/login", form);
+    const response = await axiosInstance.post("/auth/signin", form);
     setUser(response.data.user)
     navigate('/')
   };
