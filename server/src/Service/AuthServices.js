@@ -2,8 +2,8 @@ const { User } = require('../../db/models');
 const bcrypt = require('bcrypt');
 
 class AuthService {
-  static async signup({ password, email, name }) {
-    if (!password || !email || !name) {
+  static async signup({ password, email, login }) {
+    if (!password || !email || !login) {
       throw new Error('Все поля должны быть заполнены');
     }
 
@@ -12,7 +12,7 @@ class AuthService {
     const [user, created] = await User.findOrCreate({
       where: { email },
       defaults: {
-        name,
+        login,
         hashpass,
       },
     });

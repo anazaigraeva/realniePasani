@@ -20,7 +20,10 @@ class AuthController {
 
   static async refresh(req, res) {
     try {
+     
       const { refreshToken } = req.cookies;
+     
+      
       const { user } = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
 
       const { refreshToken: newRefreshToken, accessToken } = generateTokens({ user });

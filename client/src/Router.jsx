@@ -8,21 +8,27 @@ import ProtectedRoute from './HOCs/ProtectedRoute';
 import HomePage from './Pages/Homepage/HomePage';
 import Signup from './Pages/Signup/Signup';
 import Signin from './Pages/Signin/Signin';
+import NotFoundPage from './Pages/NotFoundPage/NotFoundPage';
+import axiosInstance, { setAccessToken } from './axiosinstance';
+import ProfilePage from './Pages/ProfilePage/ProfilePage';
 
 export default function Router() {
   const [user, setUser] = useState(null);
-  // const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(true);
 
-  // useEffect(() => {
-  //     axios.get('/api/auth/refresh').then(({data}) => {
-  //         setUser(data.user);
-  //         setAccessToken(data.accessToken);
-  //     }).finally(() => setLoading(false))
-  //     }, []);
+  useEffect(() => {
+    axiosInstance
+      .get('/auth/refresh')
+      .then(({ data }) => {
+        setUser(data.user);
+        setAccessToken(data.accessToken);
+      })
+      .finally(() => setLoading(false));
+  }, []);
 
-  // if (loading) {
-  //     return <div>Загрузка...</div>
-  // }
+  if (loading) {
+    return <div>Загрузка...</div>;
+  }
 
   return (
     <BrowserRouter>
@@ -30,16 +36,19 @@ export default function Router() {
         <Route path="/" element={<Layout />}>
           <Route path="/" element={<HomePage />} />
           <Route element={<ProtectedRoute isAllowed={!user} redirectTo="/" />}>
+            <Route path="/*" element={<NotFoundPage setUser={setUser} />} />
             <Route path="/signup" element={<Signup setUser={setUser} />} />
-            <Route path='/signin' element={<Signin setUser={setUser}/>} /> импортировать signin, если будет одна страница то убрать
+            <Route path="/signin" element={<Signin setUser={setUser} />} /> импортировать
+            signin, если будет одна страница то убрать
           </Route>
-          {/* <Route path='/profile' element={
-
+          <Route
+            path="/profile"
+            element={
               <ProtectedRoute isAllowed={user} redirectTo="/signup">
-                <Profile user={user} />
+                <ProfilePage user={user} />
               </ProtectedRoute>
             }
-        /> */}
+          />
         </Route>
       </Routes>
     </BrowserRouter>

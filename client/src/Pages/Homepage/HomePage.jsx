@@ -9,7 +9,7 @@ export default function HomePage() {
 
     useEffect( ()=>{
         axiosInstance.get('/category').then((response) => {
-          console.log(response.data);
+          // console.log(response.data);
             setCategory(response.data)
         })
     }, [])
