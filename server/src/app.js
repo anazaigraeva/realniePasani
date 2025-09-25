@@ -7,6 +7,8 @@ const wordRouter = require('./Routes/wordRouter');
 const authRouter = require('./Routes/authRouter');
 const likesRouter = require('./Routes/likesRouter');
 
+const wordCategRouter = require('./Routes/wordCategRouter');
+const chatRouter = require('./Routes/chatRouter');
 const app = express()
 
 
@@ -20,5 +22,6 @@ app.use('/api/words', wordRouter)
 app.use('/api/auth', authRouter)
 app.use('/api/users', userRouter);
 app.use('/api/likes', likesRouter);
+app.use('/api/chat', chatRouter);
 
 module.exports = app;
