@@ -1,6 +1,5 @@
 const WordService = require('../Service/WordServices');
 
-
 class WordController {
   static async getAll(req, res) {
     try {
@@ -12,11 +11,12 @@ class WordController {
     }
   }
 
-    static async getWordCateg(req, res) {
+  static async getWordCateg(req, res) {
     try {
-       const { id } = req.params
+      console.log(req.params);
+      
+      const { id } = req.params;
       const allWordCateg = await WordService.getWordCateg(id);
-      console.log(allWordCateg)
       res.send(allWordCateg);
     } catch (error) {
       console.log({ error: error.message });
