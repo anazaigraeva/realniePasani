@@ -3,13 +3,15 @@ import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
 import { Link, NavLink } from 'react-router';
 import axiosInstance from '../../axiosinstance';
-import { Nav } from 'react-bootstrap';
 
 export default function Navba({ user, setUser }) {
   const signoutHandler = async () => {
-    await axiosInstance.delete('/auth');
+    await axiosInstance.delete('/auth/logout');
     setUser(null);
   };
+
+  console.log(user, '------')
+  
   return (
     <Navbar className="bg-body-tertiary">
       <Container>
@@ -25,15 +27,14 @@ export default function Navba({ user, setUser }) {
             {!user ? (
               <NavLink to="/signin">Войти</NavLink>
             ) : (
-              <NavLink to="/profile">{user.name}</NavLink>
+              <NavLink to="/profile">{user.login}</NavLink>
             )}
-            {/* взамен кто то сделать переадресацию на страничку профиля */}
           </Navbar.Text>
           <Navbar.Text>
             {!user ? (
               <NavLink to="/signup">Регистрация</NavLink>
             ) : (
-              <NavLink onClick={signoutHandler}>Выйти </NavLink>
+              <NavLink onClick={signoutHandler}>Выйти</NavLink>
             )}
           </Navbar.Text>
         </Navbar.Collapse>
@@ -41,3 +42,4 @@ export default function Navba({ user, setUser }) {
     </Navbar>
   );
 }
+

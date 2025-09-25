@@ -37,8 +37,7 @@ export default function Router() {
           <Route element={<ProtectedRoute isAllowed={!user} redirectTo="/" />}>
             <Route path="/*" element={<NotFoundPage setUser={setUser} />} />
             <Route path="/signup" element={<Signup setUser={setUser} />} />
-            <Route path="/signin" element={<Signin setUser={setUser} />} /> импортировать
-            signin, если будет одна страница то убрать
+            <Route path="/signin" element={<Signin setUser={setUser} />} />
           </Route>
           <Route
             path="/profile"
