@@ -3,22 +3,20 @@ import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
 import { Link, NavLink } from 'react-router';
 import axiosInstance from '../../axiosinstance';
-import { Nav } from 'react-bootstrap';
+import './Navbar.css';
 
 export default function Navba({ user, setUser }) {
-
 
   const signoutHandler = async () => {
     await axiosInstance.delete('/auth/signout');
     setUser(null);
   };
 
-  
   return (
-    <Navbar className="bg-body-tertiary">
+    <Navbar className="navbar-custom">
       <Container>
         <Navbar.Text>
-          <Link to="/">
+          <Link to="/" style={{ textDecoration: 'none' }}>
             <h3>Словарь поколений</h3>
             <h6>Понимай друг друга лучше</h6>
           </Link>
@@ -29,15 +27,14 @@ export default function Navba({ user, setUser }) {
             {!user ? (
               <NavLink to="/signin">Войти</NavLink>
             ) : (
-              <NavLink to="/profile">{user.name}</NavLink>
+              <NavLink to="/profile">{user.login}</NavLink>
             )}
-            {/* взамен кто то сделать переадресацию на страничку профиля */}
           </Navbar.Text>
           <Navbar.Text>
             {!user ? (
               <NavLink to="/signup">Регистрация</NavLink>
             ) : (
-              <NavLink onClick={signoutHandler}>Выйти </NavLink>
+              <NavLink onClick={signoutHandler}>Выйти</NavLink>
             )}
           </Navbar.Text>
         </Navbar.Collapse>

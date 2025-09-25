@@ -10,6 +10,18 @@ class WordController {
       console.log({ error: error.message });
     }
   }
+
+  static async getWordCateg(req, res) {
+    try {
+      console.log(req.params);
+      
+      const { id } = req.params;
+      const allWordCateg = await WordService.getWordCateg(id);
+      res.send(allWordCateg);
+    } catch (error) {
+      console.log({ error: error.message });
+    }
+  }
 }
 
 module.exports = WordController;

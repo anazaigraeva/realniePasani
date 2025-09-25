@@ -1,23 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Card from '../../Components/Cards/Card';
-import axiosInstance from '../../axiosinstance';
+import './HomePage.css';
 
-export default function HomePage() {
-  const [categories, setCategory] = useState([]);
-
-  useEffect(() => {
-    axiosInstance.get('/category').then((response) => {
-      // console.log(response.data);
-      setCategory(response.data);
-    });
-  }, []);
-
+export default function HomePage({ setCategory, categories }) {
   return (
-    <>
+    <div className="categories-container">
       {categories.map((category) => (
-        <Card key={category.id} category={category} />
+        <Card
+          key={category.id}
+          category={category}
+          setCategory={setCategory}
+        />
       ))}
-      Bonjour
-    </>
+    </div>
   );
 }

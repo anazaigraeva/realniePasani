@@ -20,7 +20,6 @@ app.use(express.urlencoded({extended: true}));
 app.use('/api/category', categoryRouter)
 app.use('/api/words', wordRouter)
 app.use('/api/auth', authRouter)
-app.use('/api/categories', wordCategRouter)
 app.use('/api/users', userRouter);
 app.use('/api/likes', likesRouter);
 app.use('/api/chat', chatRouter);

@@ -1,0 +1,48 @@
+.category-card {
+  background: #fff0f5; /* пастельный розовый */
+  border-radius: 16px;
+  padding: 1rem;
+  min-width: 200px;
+  max-width: 250px;
+  margin: 8px;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+  border: 1px solid #f5c2c7;
+}
+
+.category-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+  background: #ffe4f0;
+}
+
+.category-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #6b4f6f;
+}
+
+.category-description {
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.95rem;
+  color: #5a3d5c;
+  margin-bottom: 1rem;
+}
+
+.category-btn {
+  background: #d78aa3;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 0.5rem 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.25s ease, transform 0.25s ease;
+}
+
+.category-btn:hover {
+  background: #c06a8c;
+  transform: translateY(-2px);
+}

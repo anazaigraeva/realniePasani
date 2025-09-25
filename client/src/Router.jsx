@@ -10,10 +10,18 @@ import Signin from './Pages/Signin/Signin';
 import NotFoundPage from './Pages/NotFoundPage/NotFoundPage';
 import axiosInstance, { setAccessToken } from './axiosinstance';
 import ProfilePage from './Pages/ProfilePage/ProfilePage';
+import WordPage from './Pages/WordPage/WordPage';
 
 export default function Router() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [categories, setCategory] = useState([]);
+
+  useEffect(() => {
+    axiosInstance.get('/category').then((response) => {
+      setCategory(response.data);
+    });
+  }, []);
 
   useEffect(() => {
     axiosInstance
@@ -27,21 +35,28 @@ export default function Router() {
 
   if (loading) {
     return <div>Загрузка...</div>;
-
   }
-// console.log(user);
+  // console.log(user);
 
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Layout user={user} setUser={setUser}/>}>
-          <Route path="/" element={<HomePage />} />
+        <Route path="/" element={<Layout user={user} setUser={setUser} />}>
+          <Route
+            path="/"
+            element={<HomePage setCategory={setCategory} categories={categories} />}
+          />
+          <Route
+            path="/words"
+            element={<WordPage setUser={setUser} categories={categories} />}
+          />
+          <Route path="/words/:id" element={<WordPage />} />
           <Route element={<ProtectedRoute isAllowed={!user} redirectTo="/" />}>
             <Route path="/*" element={<NotFoundPage setUser={setUser} />} />
             <Route path="/signup" element={<Signup setUser={setUser} />} />
-            <Route path="/signin" element={<Signin setUser={setUser} />} /> импортировать
-            signin, если будет одна страница то убрать
+            <Route path="/signin" element={<Signin setUser={setUser} />} />
           </Route>
+
           <Route
             path="/profile"
             element={
