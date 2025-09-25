@@ -3,6 +3,9 @@ const { verifyRefreshToken } = require('../middlewares/verifyTokens');
 
 const authRouter = require('express').Router();
 
+
+
+authRouter.post('/signin', AuthController.signin);
 authRouter.post('/signup', AuthController.signup);
 authRouter.get('/refresh', verifyRefreshToken, AuthController.refresh);
 authRouter.delete('/signout', AuthController.signout);

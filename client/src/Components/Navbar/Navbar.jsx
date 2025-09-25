@@ -6,10 +6,14 @@ import axiosInstance from '../../axiosinstance';
 import { Nav } from 'react-bootstrap';
 
 export default function Navba({ user, setUser }) {
+
+
   const signoutHandler = async () => {
-    await axiosInstance.delete('/auth');
+    await axiosInstance.delete('/auth/signout');
     setUser(null);
   };
+
+  
   return (
     <Navbar className="bg-body-tertiary">
       <Container>

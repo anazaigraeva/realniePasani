@@ -20,36 +20,32 @@ export default function Signup({ setUser }) {
 
   return (
     <>
-      <div>
-        <h1>Регистрация</h1>
-      </div>
-
-      <h1>Регистрация</h1>
-      <form onSubmit={submitHandler}>
-        <label htmlFor="name">Ваше имя</label>
+      <h1 >Регистрация</h1><br></br>
+      <form onSubmit={submitHandler} >
+        <label htmlFor="name">Ваше имя</label><br></br>
         <input
           type="text"
           id="name"
           name="login"
           onChange={changeHandler}
           value={form.login}
-        />
-        <label htmlFor="email">Почта</label>
+        /><br></br>
+        <label htmlFor="email">Почта</label><br></br>
         <input
           type="email"
           id="email"
           name="email"
           onChange={changeHandler}
           value={form.email}
-        />
-        <label htmlFor="password">Пароль</label>
+        /><br></br>
+        <label htmlFor="password">Пароль</label><br></br>
         <input
           type="password"
           id="password"
           name="password"
           onChange={changeHandler}
           value={form.password}
-        />
+        /><br></br>
         <button type="submit">Зарегистрироваться</button>
       </form>
     </>

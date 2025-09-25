@@ -20,10 +20,8 @@ class AuthController {
 
   static async refresh(req, res) {
     try {
-     
       const { refreshToken } = req.cookies;
-     
-      
+
       const { user } = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
 
       const { refreshToken: newRefreshToken, accessToken } = generateTokens({ user });
@@ -33,6 +31,19 @@ class AuthController {
     } catch (err) {
       console.log(err);
       res.sendStatus(401);
+    }
+  }
+
+  static async signin(req, res) {
+    try {
+      const user = await AuthService.signin(req.body);
+      const { refreshToken, accessToken } = generateTokens({ user });
+      res
+        .status(201)
+        .cookie('refreshToken', refreshToken, cookieConfig.refresh)
+        .json({ user, accessToken });
+    } catch (err) {
+      res.status(500).json({ message: err.message });
     }
   }
 
