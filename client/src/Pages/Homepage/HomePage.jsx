@@ -6,6 +6,7 @@ import axiosInstance from '../../axiosinstance'
 export default function HomePage() {
     const [categories, setCategory] = useState([])
 
+
     useEffect( ()=>{
         axiosInstance.get('/category').then((response) => {
           console.log(response.data);
