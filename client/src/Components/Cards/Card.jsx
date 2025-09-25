@@ -1,15 +1,19 @@
 import React from 'react';
+import BSCard from 'react-bootstrap/Card';
+
 
 export default function Card({ category }) {
+  console.log({category})
+  
   return (
-    <Card>
-      <Card.Body>
-        <Card.Title>{category.gen}</Card.Title>
-        <Card.Text>{category.description}</Card.Text>
+    <BSCard>
+      <BSCard.Body>
+        <BSCard.Title>{category?.gen}</BSCard.Title>
+        <BSCard.Text>{category?.description}</BSCard.Text>
         <button type="button" className="btn btn-primary">
           Изучить
         </button>
-      </Card.Body>
-    </Card>
+      </BSCard.Body>
+    </BSCard>
   );
 }

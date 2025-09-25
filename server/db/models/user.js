@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      this.hasMany(models.World,{foreignKey: 'userId'})
+      this.hasMany(models.Word,{foreignKey: 'userId'})
       this.hasMany(models.Like,{foreignKey: 'userId'})
 
     }

@@ -25,7 +25,7 @@ const [user, setUser] = useState(null)
   return (
     <BrowserRouter>
       <Routes>
-        <Route path='/' element={<Layout />}>
+        <Route element={<Layout />}>
         <Route path="/" element={<HomePage />} />
         {/* <Route element={<ProtectedRoute isAllowed={!user} redirectTo="/" />}> */}
         {/* <Route path='/signup' element={<Signup setUser={setUser}/>} />  импортировать signup */}

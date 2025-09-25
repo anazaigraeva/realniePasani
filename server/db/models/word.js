@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
       this.hasMany(models.Like,{foreignKey: 'wordId'})
     }
     }
-  }
+  
   Word.init({
     sleng: DataTypes.STRING,
     description: DataTypes.TEXT,
