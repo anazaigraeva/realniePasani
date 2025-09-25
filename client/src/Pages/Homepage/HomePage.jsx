@@ -1,14 +1,15 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
+import axiosInstance from '../../axiosinstance'
 
 export default function HomePage() {
     const [categories, setCategory] = useState([])
 
-    // useEffect(()=>{
-    //     axios.get('/api/categories').then(({data}) => {
-    //         setCategory(data)
-    //     })
-    // }, [])
+    useEffect(()=>{
+        axiosInstance.get('/categories').then(({data}) => {
+            setCategory(data)
+        })
+    }, [])
 
     
   return (
