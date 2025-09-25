@@ -12,7 +12,7 @@ export default function Signin({setUser}) {
 <div><h1>Вход</h1></div>
     <Form>
       <Form.Group className="mb-3" controlId="formGroupEmail">
-        <Form.Label>Вашь Email</Form.Label>
+        <Form.Label>Ваш Email</Form.Label>
         <Form.Control type="email" placeholder="Введите Email" />
       </Form.Group>
       <Form.Group className="mb-3" controlId="formGroupPassword">
