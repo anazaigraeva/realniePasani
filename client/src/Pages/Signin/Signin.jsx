@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router';
 import axiosInstance from '../../axiosinstance';
+import './Signin.css';
 
 export default function Login({ setUser }) {
   const navigate = useNavigate();
@@ -19,29 +20,29 @@ export default function Login({ setUser }) {
   const changeHandler = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
   return (
-    <div>
+    <div className="login-container">
       <h1>Вход в учетную запись</h1>
       <form onSubmit={submitHandler}>
         <label htmlFor="email">Почта</label>
-        <br></br>
         <input
           type="email"
           id="email"
           name="email"
           onChange={changeHandler}
           value={form.email}
+          required
         />
-        <br></br>
+
         <label htmlFor="password">Пароль</label>
-        <br></br>
         <input
           type="password"
           id="password"
           name="password"
           onChange={changeHandler}
           value={form.password}
+          required
         />
-        <br></br>
+
         <button type="submit">Войти</button>
       </form>
     </div>

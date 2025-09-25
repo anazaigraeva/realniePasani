@@ -1,0 +1,37 @@
+.navbar-custom {
+  background: #fff0f5; /* пастельный розовый фон */
+  padding: 1rem 2rem;
+  font-family: 'Poppins', sans-serif;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.navbar-custom a {
+  color: #6b4f6f; /* темно-розовый */
+  text-decoration: none;
+  margin-left: 1rem;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.navbar-custom a:hover {
+  color: #d78aa3; /* яркий акцентный розовый при hover */
+}
+
+.navbar-custom h3 {
+  margin: 0;
+  font-size: 1.6rem;
+  color: #6b4f6f;
+}
+
+.navbar-custom h6 {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: #5a3d5c;
+}
+
+.navbar-text {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
