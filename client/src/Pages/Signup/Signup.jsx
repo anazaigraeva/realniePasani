@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import axiosInstance, { setAccessToken } from '../../axiosinstance';
+import axiosInstance, { setAccessToken } from '../../axiosinstance';
 
 export default function Signup({ setUser }) {
   const [form, setForm] = useState({
+    login: '',
     login: '',
     email: '',
     password: '',
@@ -20,6 +22,9 @@ export default function Signup({ setUser }) {
 
   return (
     <>
+      <h1 >Регистрация</h1><br></br>
+      <form onSubmit={submitHandler} >
+        <label htmlFor="name">Ваше имя</label><br></br>
       <div>
         <h1>Регистрация</h1>
       </div>
@@ -32,6 +37,9 @@ export default function Signup({ setUser }) {
           id="name"
           name="login"
           onChange={changeHandler}
+          value={form.name}
+        /><br></br>
+        <label htmlFor="email">Почта</label><br></br>
           value={form.login}
         />
         <label htmlFor="email">Почта</label>
@@ -41,16 +49,17 @@ export default function Signup({ setUser }) {
           name="email"
           onChange={changeHandler}
           value={form.email}
-        />
-        <label htmlFor="password">Пароль</label>
+        /><br></br>
+        <label htmlFor="password">Пароль</label><br></br>
         <input
           type="password"
           id="password"
           name="password"
           onChange={changeHandler}
           value={form.password}
-        />
+        /><br></br>
         <button type="submit">Зарегистрироваться</button>
+      </form>
       </form>
     </>
   );
