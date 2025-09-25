@@ -10,10 +10,21 @@ import Signin from './Pages/Signin/Signin';
 import NotFoundPage from './Pages/NotFoundPage/NotFoundPage';
 import axiosInstance, { setAccessToken } from './axiosinstance';
 import ProfilePage from './Pages/ProfilePage/ProfilePage';
+import WordCard from './Components/Cards/wordscards';
 
 export default function Router() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [categories, setCategory] = useState([]);
+
+  
+    useEffect(() => {
+      axiosInstance.get('/category').then((response) => {
+        console.log(response.data);
+        setCategory(response.data);
+      });
+    }, []);
+  
 
   useEffect(() => {
     axiosInstance
@@ -35,12 +46,16 @@ export default function Router() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Layout user={user} setUser={setUser}/>}>
-          <Route path="/" element={<HomePage />} />
-          <Route element={<ProtectedRoute isAllowed={!user} redirectTo="/" />}>
-            <Route path="/*" element={<NotFoundPage setUser={setUser} />} />
-            <Route path="/signup" element={<Signup setUser={setUser} />} />
-            <Route path="/signin" element={<Signin setUser={setUser} />} />
-          </Route>
+
+          <Route path="/" element={<HomePage setCategory={setCategory} categories={categories}/>} />
+          <Route path="/words" element={<WordCard setUser={setUser} categories = {categories} />} />
+          <Route path="/words/:id" element={<WordCard/>} />
+            <Route element={<ProtectedRoute isAllowed={!user} redirectTo="/" />}>
+              <Route path="/*" element={<NotFoundPage setUser={setUser} />} />
+              <Route path="/signup" element={<Signup setUser={setUser} />} />
+              <Route path="/signin" element={<Signin setUser={setUser} />} />
+           </Route>
+
           <Route
             path="/profile"
             element={
