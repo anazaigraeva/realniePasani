@@ -46,6 +46,7 @@ export default function Router() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Layout user={user} setUser={setUser}/>}>
+
           <Route path="/" element={<HomePage setCategory={setCategory} categories={categories}/>} />
           <Route path="/words" element={<WordCard setUser={setUser} categories = {categories} />} />
           <Route path="/words/:id" element={<WordCard/>} />
@@ -54,6 +55,7 @@ export default function Router() {
               <Route path="/signup" element={<Signup setUser={setUser} />} />
               <Route path="/signin" element={<Signin setUser={setUser} />} />
            </Route>
+
           <Route
             path="/profile"
             element={

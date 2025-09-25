@@ -11,7 +11,6 @@ export default function HomePage({setCategory, categories}) {
       {categories.map((category) => (
         <Card key={category.id} category={category} />
       ))}
-      Bonjour
     </>
   );
 }
