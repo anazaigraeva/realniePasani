@@ -31,9 +31,9 @@ export default function Navba({ user, setUser }) {
           </Navbar.Text>
           <Navbar.Text>
             {!user ? (
-              <NavLink to="/signup">Sign up</NavLink>
+              <NavLink to="/signup">Регистрация</NavLink>
             ) : (
-              <NavLink onClick={signoutHandler}>Sign Out </NavLink>
+              <NavLink onClick={signoutHandler}>Выйти </NavLink>
             )}
           </Navbar.Text>
         </Navbar.Collapse>
