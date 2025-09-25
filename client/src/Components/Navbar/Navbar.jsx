@@ -5,12 +5,13 @@ import { Link, NavLink } from 'react-router';
 import axiosInstance from '../../axiosinstance';
 
 export default function Navba({ user, setUser }) {
+
+
   const signoutHandler = async () => {
     await axiosInstance.delete('/auth/logout');
     setUser(null);
   };
 
-  console.log(user, '------')
   
   return (
     <Navbar className="bg-body-tertiary">

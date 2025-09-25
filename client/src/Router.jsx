@@ -27,12 +27,14 @@ export default function Router() {
 
   if (loading) {
     return <div>Загрузка...</div>;
+
   }
+// console.log(user);
 
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Layout />}>
+        <Route path="/" element={<Layout user={user} setUser={setUser}/>}>
           <Route path="/" element={<HomePage />} />
           <Route element={<ProtectedRoute isAllowed={!user} redirectTo="/" />}>
             <Route path="/*" element={<NotFoundPage setUser={setUser} />} />
