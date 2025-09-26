@@ -1,17 +1,19 @@
-import React, { useState, useEffect } from "react";
-import { useParams } from "react-router";
-import axiosInstance from "../../axiosinstance";
-import { Modal, Button } from "react-bootstrap";
-import "./WordPage.css";
-import Likes from '../../Components/Likes/Likes'
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router';
+import axiosInstance from '../../axiosinstance';
+import { Modal, Button } from 'react-bootstrap';
+import './WordPage.css';
+import Likes from '../../Components/Likes/Likes';
 
-export default function WordPage({userId}) {
-  const [word, setWord] = useState([]); // массив слов
+export default function WordPage({ user }) {
+  const [word, setWord] = useState([]);
   const { id } = useParams();
+  // const [user, setUser] = useState(null);
 
   const [showModal, setShowModal] = useState(false);
-  const [currentIndex, setCurrentIndex] = useState(0); // индекс текущего слова
-  const [haiku, setHaiku] = useState(''); // для хранения хокку
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [haiku, setHaiku] = useState('');
+  const [currentWordId, setCurrentWordId] = useState(null); // новое состояние для id
 
   useEffect(() => {
     axiosInstance.get(`/words/${id}`).then((response) => {
@@ -19,35 +21,51 @@ export default function WordPage({userId}) {
     });
   }, [id]);
 
-  const handleOpen = (index) => {
+  // console.log(user, 'userId');
+
+  const handleOpen = (index, wordId) => {
+    // принимаем и index и wordId
     setCurrentIndex(index);
-    setHaiku(''); // сбрасываем хокку при открытии новой карточки
+    setCurrentWordId(wordId); // сохраняем id слова
+    setHaiku('');
     setShowModal(true);
   };
 
-  const handleClose = () => setShowModal(false);
+  const handleClose = () => {
+    setShowModal(false);
+    setCurrentWordId(null); // сбрасываем id при закрытии
+  };
 
-  const handlePrev = () => setCurrentIndex((prev) => (prev > 0 ? prev - 1 : prev));
-  const handleNext = () =>
-    setCurrentIndex((prev) => (prev < word.length - 1 ? prev + 1 : prev));
+  const handlePrev = () => {
+    if (currentIndex > 0) {
+      const newIndex = currentIndex - 1;
+      setCurrentIndex(newIndex);
+      setCurrentWordId(word[newIndex]?.id); // обновляем id при переключении
+    }
+  };
+
+  const handleNext = () => {
+    if (currentIndex < word.length - 1) {
+      const newIndex = currentIndex + 1;
+      setCurrentIndex(newIndex);
+      setCurrentWordId(word[newIndex]?.id); // обновляем id при переключении
+    }
+  };
 
   const selectedWord = word[currentIndex];
 
   const submitHandler = async (sleng) => {
     try {
       const response = await axiosInstance.post('/ai/ask', { sleng });
-
-      setHaiku(response.data.content); // выводим хокку в модалке
+      setHaiku(response.data.content);
     } catch (error) {
       console.error('Ошибка при получении хокку:', error);
       setHaiku('Не удалось получить хокку 😢');
     }
   };
-  // console.log(haiku);
 
   return (
     <>
-      {/* Горизонтальная карусель */}
       <div className="word-container">
         {word.map((el, index) => (
           <section key={el.id} className="word-slide">
@@ -55,7 +73,7 @@ export default function WordPage({userId}) {
             <Button
               variant="outline-primary"
               className="learn-btn"
-              onClick={() => handleOpen(index)}
+              onClick={() => handleOpen(index, el.id)} // передаем id
             >
               Изучить
             </Button>
@@ -63,12 +81,11 @@ export default function WordPage({userId}) {
         ))}
       </div>
 
-      {/* Модалка */}
       <Modal show={showModal} onHide={handleClose} centered>
         <Modal.Header closeButton>
           <Modal.Title>{selectedWord?.sleng}</Modal.Title>
         </Modal.Header>
-        <Likes userId={userId} wordId={id}/>
+        <Likes wordId={currentWordId} userId={user?.id}/> {/* передаем id */}
         <Modal.Body>
           <p>
             <strong>Перевод:</strong> {selectedWord?.translate ?? '—'}
@@ -101,7 +118,7 @@ export default function WordPage({userId}) {
           <Button variant="primary" onClick={handleClose}>
             Закрыть
           </Button>
-          <Button variant="success" onClick={() => submitHandler(selectedWord.sleng)}>
+          <Button variant="success" onClick={() => submitHandler(selectedWord?.sleng)}>
             Хочу хокку
           </Button>
         </Modal.Footer>

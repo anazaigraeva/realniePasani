@@ -16,9 +16,6 @@ export default function Router() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [categories, setCategory] = useState([]);
-  
-  
-  
 
   useEffect(() => {
     axiosInstance.get('/category').then((response) => {
@@ -39,35 +36,33 @@ export default function Router() {
   if (loading) {
     return <div>Загрузка...</div>;
   }
-  // console.log(user);
+
+  console.log(user, 'user');
 
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Layout user={user} setUser={setUser} />}>
+        <Route
+          path="/"
+          element={<Layout user={user} setUser={setUser} userId={user?.id} />}
+        >
           <Route
             path="/"
             element={<HomePage setCategory={setCategory} categories={categories} />}
           />
-          <Route
+          {/* <Route
             path="/words"
-            element={<WordPage setUser={setUser} categories={categories} userId={user.id}/>}
-          />
+            element={<WordPage setUser={setUser} categories={categories} user={user} />}
+          /> */}
           <Route path="/*" element={<NotFoundPage setUser={setUser} />} />
-          <Route path="/words/:id" element={<WordPage  />} />
-          <Route element={<ProtectedRoute isAllowed={!user} redirectTo="/" />}>
+          <Route element={<ProtectedRoute isAllowed={!user} redirectTo="/signup" />}>
+            <Route path="/words/:id" element={<WordPage user={user} />} />
+            <Route path="/profile" element={<ProfilePage user={user} />} />
+          </Route>
+          <Route element={<ProtectedRoute isAllowed={user} redirectTo="/" />}>
             <Route path="/signup" element={<Signup setUser={setUser} />} />
             <Route path="/signin" element={<Signin setUser={setUser} />} />
           </Route>
-
-          <Route
-            path="/profile"
-            element={
-              <ProtectedRoute isAllowed={user} redirectTo="/signup">
-                <ProfilePage user={user} />
-              </ProtectedRoute>
-            }
-          />
         </Route>
       </Routes>
     </BrowserRouter>
