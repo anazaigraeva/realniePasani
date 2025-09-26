@@ -64,7 +64,7 @@ export default function Router() {
             path="/profile"
             element={
               <ProtectedRoute isAllowed={user} redirectTo="/signup">
-                <ProfilePage user={user} />
+                <ProfilePage user={user} setUser={setUser} />
               </ProtectedRoute>
             }
           />

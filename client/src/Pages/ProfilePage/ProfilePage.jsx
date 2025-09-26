@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import axiosInstance from '../../axiosinstance';
 import '../Signup/Signup.css';
+import { Button, Modal } from 'react-bootstrap';
 
-export default function ProfilePage({ user }) {
+export default function ProfilePage({ user, setUser }) {
   const [form, setForm] = useState({
     sleng: '',
     description: '',
@@ -12,10 +13,23 @@ export default function ProfilePage({ user }) {
   });
   const [myWords, setMyWords] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [liked, setLiked] = useState([]);
+
+  // modal state
+  const [showEdit, setShowEdit] = useState(false);
+  const [profileForm, setProfileForm] = useState({
+    login: user?.login || '',
+    email: user?.email || '',
+  });
+
+  useEffect(() => {
+    setProfileForm({ login: user?.login || '', email: user?.email || '' });
+  }, [user]);
 
   useEffect(() => {
     axiosInstance.get('/category').then(({ data }) => setCategories(data));
     axiosInstance.get('/words/me/mine').then(({ data }) => setMyWords(data));
+    axiosInstance.get('/likes/me').then(({ data }) => setLiked(data));
   }, []);
 
   const changeHandler = (e) => {
@@ -34,9 +48,39 @@ export default function ProfilePage({ user }) {
     setMyWords((prev) => prev.filter((w) => w.id !== id));
   };
 
+  const openEdit = () => setShowEdit(true);
+  const closeEdit = () => setShowEdit(false);
+  const profileChange = (e) =>
+    setProfileForm({ ...profileForm, [e.target.name]: e.target.value });
+  const saveProfile = async () => {
+    const { data } = await axiosInstance.put('/users/me', profileForm);
+    setUser(data);
+    setShowEdit(false);
+  };
+
   return (
     <div className="container">
       <div className="row g-4">
+        <div className="col-12">
+          <div
+            className="signup-container"
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}
+          >
+            <div>
+              <div style={{ fontWeight: 700 }}>Профиль</div>
+              <div style={{ width: 200 }}>Логин: {user?.login}</div>
+              <div>Email: {user?.email}</div>
+            </div>
+            <Button variant="primary" onClick={openEdit} style={{ marginLeft: '300px' }}>
+              Редактировать
+            </Button>
+          </div>
+        </div>
+
         <div className="col-lg-5 col-md-6">
           <div className="signup-container">
             <h1>Добавить слово</h1>
@@ -132,8 +176,71 @@ export default function ProfilePage({ user }) {
               </div>
             ))}
           </div>
+
+          <div style={{ marginTop: '2rem' }}>
+            <h2 style={{ margin: '1rem 0' }}>Понравившиеся слова</h2>
+            {liked.length === 0 && <div>У вас пока нет лайкнутых слов</div>}
+            <div className="row g-3">
+              {liked.map((l) => (
+                <div key={l.id} className="col-12">
+                  <div className="signup-container" style={{ margin: 0 }}>
+                    <div
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                      }}
+                    >
+                      <div>
+                        <div style={{ fontWeight: 700 }}>
+                          {l.Word?.sleng}{' '}
+                          {l.Word?.translate ? `— ${l.Word.translate}` : ''}
+                        </div>
+                        <div>{l.Word?.description}</div>
+                        {l.Word?.example && (
+                          <div style={{ opacity: 0.8 }}>Пример: {l.Word.example}</div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
+
+      <Modal show={showEdit} onHide={closeEdit} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Редактировать профиль</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <div className="signup-container" style={{ margin: 0 }}>
+            <label htmlFor="login">Логин</label>
+            <input
+              id="login"
+              name="login"
+              value={profileForm.login}
+              onChange={profileChange}
+            />
+            <label htmlFor="email">Email</label>
+            <input
+              id="email"
+              name="email"
+              value={profileForm.email}
+              onChange={profileChange}
+            />
+          </div>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={closeEdit}>
+            Закрыть
+          </Button>
+          <Button variant="primary" onClick={saveProfile}>
+            Сохранить
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 }

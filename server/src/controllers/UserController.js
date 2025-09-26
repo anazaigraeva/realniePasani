@@ -18,5 +18,17 @@ class UserController {
       return res.status(500).send({ error: error.message });
     }
   }
+
+  static async updateMe(req, res) {
+    try {
+      const id = res.locals.user.id;
+      const { login, email } = req.body;
+      const updated = await UserService.updateById(id, { login, email });
+      if (!updated) return res.sendStatus(404);
+      return res.json(updated);
+    } catch (error) {
+      return res.status(500).send({ error: error.message });
+    }
+  }
 }
 module.exports = UserController;
