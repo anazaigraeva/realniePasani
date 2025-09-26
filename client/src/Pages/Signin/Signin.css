@@ -1,0 +1,79 @@
+/* Общие стили */
+body {
+  font-family: 'Poppins', sans-serif;
+  background: #fff8f2;
+}
+
+/* Контейнер формы */
+.login-container {
+  max-width: 400px;
+  margin: 3rem auto;
+  padding: 2rem;
+  background: #fff0f5; /* пастельный розовый */
+  border-radius: 16px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.login-container:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+}
+
+/* Заголовок */
+.login-container h1 {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  color: #6b4f6f; /* темно-розовый для заголовка */
+}
+
+/* Метки */
+.login-container label {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-weight: 600;
+  color: #5a3d5c; /* темно-розовый оттенок */
+}
+
+/* Поля ввода */
+.login-container input {
+  width: 100%;
+  padding: 0.7rem 1rem;
+  margin-bottom: 1rem;
+  border: 1px solid #f5c2c7; /* светло-розовая рамка */
+  border-radius: 12px;
+  font-size: 1rem;
+  transition: border 0.2s ease, box-shadow 0.2s ease;
+}
+
+.login-container input:focus {
+  outline: none;
+  border-color: #d78aa3; /* акцентный розовый при фокусе */
+  box-shadow: 0 0 6px rgba(215, 138, 163, 0.4);
+}
+
+/* Кнопка отправки */
+.login-container button {
+  width: 100%;
+  padding: 0.7rem;
+  background: #d78aa3; /* пастельный розовый */
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.25s ease, transform 0.25s ease;
+}
+
+.login-container button:hover {
+  background: #c06a8c; /* чуть темнее при наведении */
+  transform: translateY(-2px);
+}
+
+/* Отступы для формы */
+.login-container form {
+  display: flex;
+  flex-direction: column;
+}

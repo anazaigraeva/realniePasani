@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Button, Form } from 'react-bootstrap';
 import axiosInstance, { setAccessToken } from '../../axiosinstance';
+import './Signup.css';
 
 export default function Signup({ setUser }) {
   const [form, setForm] = useState({
@@ -19,11 +19,7 @@ export default function Signup({ setUser }) {
   const changeHandler = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
   return (
-    <>
-      <div>
-        <h1>Регистрация</h1>
-      </div>
-
+    <div className="signup-container">
       <h1>Регистрация</h1>
       <form onSubmit={submitHandler}>
         <label htmlFor="name">Ваше имя</label>
@@ -33,7 +29,9 @@ export default function Signup({ setUser }) {
           name="login"
           onChange={changeHandler}
           value={form.login}
+          required
         />
+
         <label htmlFor="email">Почта</label>
         <input
           type="email"
@@ -41,7 +39,9 @@ export default function Signup({ setUser }) {
           name="email"
           onChange={changeHandler}
           value={form.email}
+          required
         />
+
         <label htmlFor="password">Пароль</label>
         <input
           type="password"
@@ -49,27 +49,11 @@ export default function Signup({ setUser }) {
           name="password"
           onChange={changeHandler}
           value={form.password}
+          required
         />
+
         <button type="submit">Зарегистрироваться</button>
       </form>
-    </>
+    </div>
   );
-}
-
-{
-  /* <Form>
-        <Form.Group className="mb-3" controlId="formGroupEmail">
-          <Form.Label>Введите логин</Form.Label>
-          <Form.Control type="email" placeholder="Введите логин" />
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="formGroupEmail">
-          <Form.Label>Введите Email</Form.Label>
-          <Form.Control type="email" placeholder="Email" />
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="formGroupPassword">
-          <Form.Label>Пароль</Form.Label>
-          <Form.Control type="password" placeholder="Введите пароль" />
-        </Form.Group>
-        <Button variant="primary">Войти</Button>
-      </Form> */
 }
