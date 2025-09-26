@@ -16,6 +16,8 @@ export default function Router() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [categories, setCategory] = useState([]);
+  
+  
 
   useEffect(() => {
     axiosInstance.get('/category').then((response) => {

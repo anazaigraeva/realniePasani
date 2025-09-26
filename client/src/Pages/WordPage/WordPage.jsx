@@ -3,6 +3,7 @@ import { useParams } from "react-router";
 import axiosInstance from "../../axiosinstance";
 import { Modal, Button } from "react-bootstrap";
 import "./WordPage.css";
+import Likes from '../../Components/Likes/Likes'
 
 export default function WordPage() {
   const [word, setWord] = useState([]); // массив слов
@@ -50,6 +51,7 @@ export default function WordPage() {
         <Modal.Header closeButton>
           <Modal.Title>{selectedWord?.sleng}</Modal.Title>
         </Modal.Header>
+        <Likes/>
         <Modal.Body>
           <p>
             <strong>Перевод:</strong> {selectedWord?.translate ?? "—"}
