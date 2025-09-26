@@ -12,10 +12,12 @@ export default function ProfilePage({ user }) {
   });
   const [myWords, setMyWords] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [liked, setLiked] = useState([]);
 
   useEffect(() => {
     axiosInstance.get('/category').then(({ data }) => setCategories(data));
     axiosInstance.get('/words/me/mine').then(({ data }) => setMyWords(data));
+    axiosInstance.get('/likes/me').then(({ data }) => setLiked(data));
   }, []);
 
   const changeHandler = (e) => {
@@ -36,6 +38,7 @@ export default function ProfilePage({ user }) {
 
   return (
     <div className="container">
+      <button className="path-container" type="submit">Редактировать профиль</button>
       <div className="row g-4">
         <div className="col-lg-5 col-md-6">
           <div className="signup-container">
@@ -131,6 +134,37 @@ export default function ProfilePage({ user }) {
                 </div>
               </div>
             ))}
+          </div>
+
+          <div style={{ marginTop: '2rem' }}>
+            <h2 style={{ margin: '1rem 0' }}>Понравившиеся слова</h2>
+            {liked.length === 0 && <div>У вас пока нет лайкнутых слов</div>}
+            <div className="row g-3">
+              {liked.map((l) => (
+                <div key={l.id} className="col-12">
+                  <div className="signup-container" style={{ margin: 0 }}>
+                    <div
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                      }}
+                    >
+                      <div>
+                        <div style={{ fontWeight: 700 }}>
+                          {l.Word?.sleng}{' '}
+                          {l.Word?.translate ? `— ${l.Word.translate}` : ''}
+                        </div>
+                        <div>{l.Word?.description}</div>
+                        {l.Word?.example && (
+                          <div style={{ opacity: 0.8 }}>Пример: {l.Word.example}</div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>

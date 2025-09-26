@@ -4,34 +4,34 @@ body {
 }
 
 .word-container {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
   gap: 16px;
   padding: 1rem;
-  overflow-x: auto;
-  scroll-behavior: smooth;
-  -webkit-overflow-scrolling: touch;
-  margin: 2rem 0;
+  margin: 1rem 0 2rem;
 }
 
-.word-container::-webkit-scrollbar {
-  height: 8px;
+@media (max-width: 1200px) {
+  .word-container {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
-.word-container::-webkit-scrollbar-thumb {
-  background: #d8b4a6;
-  border-radius: 4px;
+@media (max-width: 900px) {
+  .word-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
-.word-container::-webkit-scrollbar-track {
-  background: #ffece2;
-  border-radius: 4px;
+@media (max-width: 600px) {
+  .word-container {
+    grid-template-columns: 1fr;
+  }
 }
 
 .word-slide {
-  min-width: 180px;
-  flex: 0 0 auto;
   background: #fff0f5;
-  padding: 1.5rem;
+  padding: 1.2rem;
   text-align: center;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   font-weight: 600;
   border-radius: 16px;
   border: 1px solid #f5c2c7;
@@ -40,7 +40,7 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
+  gap: 10px;
   transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
 }
 
@@ -75,4 +75,28 @@ body {
   border-radius: 8px;
   font-style: italic;
   color: #5a3d5c;
+}
+
+.like-row {
+  margin-top: 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.like-btn {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 20px;
+  line-height: 1;
+  transition: transform 0.15s ease;
+}
+.like-btn:hover {
+  transform: scale(1.1);
+}
+.like-btn.liked {
+  filter: drop-shadow(0 0 6px rgba(215, 138, 163, 0.5));
+}
+.like-count {
+  font-weight: 600;
 }

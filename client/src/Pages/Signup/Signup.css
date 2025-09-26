@@ -20,6 +20,23 @@ body {
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
 }
 
+/* Кнопка редактирования профиля */
+.path-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1rem;
+  padding: 0.7rem 1rem;
+  background: #d78aa3;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.25s ease, transform 0.25s ease;
+}
+
 /* Заголовок */
 .signup-container h1 {
   text-align: center;
