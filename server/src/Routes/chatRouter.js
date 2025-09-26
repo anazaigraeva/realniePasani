@@ -1,7 +1,8 @@
-const ChatController = require('../controllers/chatController');
+const AiController = require("../controllers/chatController");
+// const verifyAccessToken = require("../middlewares/verifyAccessToken");
 
-const chatRouter = require('express').Router();
+const aiRouter = require("express").Router();
 
-chatRouter.post('/messages', ChatController);
+aiRouter.post('/ask', AiController.ask);
 
-module.exports = chatRouter;
+module.exports = aiRouter;

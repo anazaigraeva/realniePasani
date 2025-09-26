@@ -1,11 +1,19 @@
-const chatService = require('../Service/ChatService');
+const AIService = require('../Service/ChatService');
 
-class ChatController {
-  static async askChat(req, res) {
-    const { message } = req.body;
-    const aiResponse = await chatService.ask(message);
-    res.json(aiResponse);
+class AIController {
+  static async ask(req, res) {
+    try {
+      console.log(req.body);
+      // console.log(Object.keys(req.body)[0], '------------');
+
+      
+      const answer = await AIService.ask(req.body.sleng);
+      res.json({ role: 'assistant', content: answer });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ error });
+    }
   }
 }
 
-module.exports = ChatController;
+module.exports = AIController;
