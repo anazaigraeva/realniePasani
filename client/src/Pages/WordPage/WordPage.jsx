@@ -11,6 +11,7 @@ export default function WordPage() {
 
   const [showModal, setShowModal] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0); // индекс текущего слова
+  const [haiku, setHaiku] = useState(''); // для хранения хокку
 
   useEffect(() => {
     axiosInstance.get(`/words/${id}`).then((response) => {
@@ -20,6 +21,7 @@ export default function WordPage() {
 
   const handleOpen = (index) => {
     setCurrentIndex(index);
+    setHaiku(''); // сбрасываем хокку при открытии новой карточки
     setShowModal(true);
   };
 
@@ -31,22 +33,37 @@ export default function WordPage() {
 
   const selectedWord = word[currentIndex];
 
+  const submitHandler = async (sleng) => {
+    try {
+      const response = await axiosInstance.post('/ai/ask', { sleng });
+
+      setHaiku(response.data.content); // выводим хокку в модалке
+    } catch (error) {
+      console.error('Ошибка при получении хокку:', error);
+      setHaiku('Не удалось получить хокку 😢');
+    }
+  };
+  // console.log(haiku);
+
   return (
     <>
-      {/* Горизонтальный скролл */}
+      {/* Горизонтальная карусель */}
       <div className="word-container">
         {word.map((el, index) => (
-          <section
-            key={el.id}
-            className="word-slide"
-            onClick={() => handleOpen(index)}
-          >
-            {el.sleng}
+          <section key={el.id} className="word-slide">
+            <h4>{el.sleng}</h4>
+            <Button
+              variant="outline-primary"
+              className="learn-btn"
+              onClick={() => handleOpen(index)}
+            >
+              Изучить
+            </Button>
           </section>
         ))}
       </div>
 
-      {/* Модалка с навигацией */}
+      {/* Модалка */}
       <Modal show={showModal} onHide={handleClose} centered>
         <Modal.Header closeButton>
           <Modal.Title>{selectedWord?.sleng}</Modal.Title>
@@ -54,7 +71,7 @@ export default function WordPage() {
         <Likes/>
         <Modal.Body>
           <p>
-            <strong>Перевод:</strong> {selectedWord?.translate ?? "—"}
+            <strong>Перевод:</strong> {selectedWord?.translate ?? '—'}
           </p>
           <p>
             <strong>Описание:</strong> {selectedWord?.description}
@@ -62,20 +79,30 @@ export default function WordPage() {
           <p>
             <strong>Пример:</strong> {selectedWord?.example}
           </p>
+
+          {haiku && (
+            <div className="haiku-box">
+              <h5>Ваше хокку:</h5>
+              <p>{haiku}</p>
+            </div>
+          )}
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handlePrev} disabled={currentIndex === 0}>
-            Предыдущее
+            ◀ Предыдущее
           </Button>
           <Button
             variant="secondary"
             onClick={handleNext}
             disabled={currentIndex === word.length - 1}
           >
-            Следующее
+            Следующее ▶
           </Button>
           <Button variant="primary" onClick={handleClose}>
             Закрыть
+          </Button>
+          <Button variant="success" onClick={() => submitHandler(selectedWord.sleng)}>
+            Хочу хокку
           </Button>
         </Modal.Footer>
       </Modal>
