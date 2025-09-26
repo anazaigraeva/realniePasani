@@ -18,6 +18,7 @@ export default function Router() {
   const [categories, setCategory] = useState([]);
   
   
+  
 
   useEffect(() => {
     axiosInstance.get('/category').then((response) => {
@@ -50,10 +51,10 @@ export default function Router() {
           />
           <Route
             path="/words"
-            element={<WordPage setUser={setUser} categories={categories} />}
+            element={<WordPage setUser={setUser} categories={categories} userId={user.id}/>}
           />
           <Route path="/*" element={<NotFoundPage setUser={setUser} />} />
-          <Route path="/words/:id" element={<WordPage />} />
+          <Route path="/words/:id" element={<WordPage  />} />
           <Route element={<ProtectedRoute isAllowed={!user} redirectTo="/" />}>
             <Route path="/signup" element={<Signup setUser={setUser} />} />
             <Route path="/signin" element={<Signin setUser={setUser} />} />
