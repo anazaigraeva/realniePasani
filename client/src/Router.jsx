@@ -14,11 +14,7 @@ import WordPage from './Pages/WordPage/WordPage';
 
 export default function Router() {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
   const [categories, setCategory] = useState([]);
-  
-  
-  
 
   useEffect(() => {
     axiosInstance.get('/category').then((response) => {
@@ -27,19 +23,13 @@ export default function Router() {
   }, []);
 
   useEffect(() => {
-    axiosInstance
-      .get('/auth/refresh')
-      .then(({ data }) => {
-        setUser(data.user);
-        setAccessToken(data.accessToken);
-      })
-      .finally(() => setLoading(false));
+    axiosInstance.get('/auth/refresh').then(({ data }) => {
+      setUser(data.user);
+      setAccessToken(data.accessToken);
+    });
   }, []);
 
-  if (loading) {
-    return <div>Загрузка...</div>;
-  }
-  // console.log(user);
+  console.log(user);
 
   return (
     <BrowserRouter>
@@ -49,25 +39,25 @@ export default function Router() {
             path="/"
             element={<HomePage setCategory={setCategory} categories={categories} />}
           />
-          <Route
-            path="/words"
-            element={<WordPage setUser={setUser} categories={categories} userId={user.id}/>}
-          />
           <Route path="/*" element={<NotFoundPage setUser={setUser} />} />
-          <Route path="/words/:id" element={<WordPage  />} />
           <Route element={<ProtectedRoute isAllowed={!user} redirectTo="/" />}>
             <Route path="/signup" element={<Signup setUser={setUser} />} />
+
             <Route path="/signin" element={<Signin setUser={setUser} />} />
           </Route>
 
-          <Route
-            path="/profile"
-            element={
-              <ProtectedRoute isAllowed={user} redirectTo="/signup">
-                <ProfilePage user={user} setUser={setUser} />
-              </ProtectedRoute>
-            }
-          />
+          <Route element={<ProtectedRoute isAllowed={user} redirectTo="/signup" />}>
+            <Route
+              path="/profile"
+              element={<ProfilePage user={user} setUser={setUser} />}
+            />
+            <Route
+              path="/words/:id"
+              element={
+                <WordPage setUser={setUser} categories={categories} userId={user?.id} />
+              }
+            />
+          </Route>
         </Route>
       </Routes>
     </BrowserRouter>
