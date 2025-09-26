@@ -50,9 +50,9 @@ export default function Router() {
             path="/words"
             element={<WordPage setUser={setUser} categories={categories} />}
           />
+          <Route path="/*" element={<NotFoundPage setUser={setUser} />} />
           <Route path="/words/:id" element={<WordPage />} />
           <Route element={<ProtectedRoute isAllowed={!user} redirectTo="/" />}>
-            <Route path="/*" element={<NotFoundPage setUser={setUser} />} />
             <Route path="/signup" element={<Signup setUser={setUser} />} />
             <Route path="/signin" element={<Signin setUser={setUser} />} />
           </Route>

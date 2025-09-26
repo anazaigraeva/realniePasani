@@ -1,83 +1,54 @@
-const axios = require('axios');
+const { GigaChat } = require('gigachat');
+const { Agent } = require('node:https');
+
 require('dotenv').config();
 
-class ChatService {
+const systemPrompt = `# System Prompt
+
+    ты мастер японскоого хокку, напиши мне хокку с этим словом, только не матерись плиз. ВНИМАТЕЛЬНО ПРОЧИТАЙ СЛОВО, ХОККУ ДОЛЖНА ОБЯЗАТЕЛЬНО ВКЛЮЧАТЬ ЭТО СЛОВО В СЕБЯ!!!!
+
+.`;
+
+class AIService {
+  #model;
+
+  #messages = [{ role: 'system', content: systemPrompt }];
+
   constructor() {
-    this.accessToken = '';
-
-    this.messages = [
-      {
-        role: 'system',
-        content: `jhkv
-        
-`,
-      },
-    ];
-
-    this.axiosInstance = axios.create();
-
-    this.axiosInstance.interceptors.response.use(
-      (res) => res,
-      async (err) => {
-        const prev = err.config;
-        if ((err.status === 403 || err.status === 401) && !prev.sent) {
-          prev.sent = true;
-          await this.refresh();
-          prev.headers.Authorization = `Bearer ${this.accessToken}`;
-          return this.axiosInstance(prev);
-        }
-        return Promise.reject(err);
-      },
-    );
+    this.#model = new GigaChat({
+      credentials: process.env.GIGACHAT_KEY,
+      scope: 'GIGACHAT_API_PERS',
+      model: 'gigachat',
+      httpsAgent: new Agent({ rejectUnauthorized: false }),
+    });
   }
 
-  async refresh() {
-    console.log('refreshing');
-    const response = await axios.post(
-      'https://ngw.devices.sberbank.ru:9443/api/v2/oauth',
-      'scope=GIGACHAT_API_PERS',
-      {
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-          Accept: 'application/json',
-          RqUID: 'd9c8ccca-d2a6-40a5-90bc-0d951f2fe4ae',
-          Authorization: `Basic ${process.env.GIGACHAT_KEY}`,
-        },
-      },
-    );
+  async ask(question) {
+console.log('-------------', question);
 
-    this.accessToken = response.data.access_token;
-  }
+    try {
+      this.#messages.push({ role: 'user', content: question });
 
-  async ask(message) {
-    if (!this.accessToken) {
-      await this.refresh();
+    const response = await this.#model.chat({
+      messages: this.#messages,
+    });
+
+    const content = response.choices[0]?.message.content;
+
+    this.#messages.push({ role: 'assistant', content });
+    console.log(content);
+    
+    return content;
+    } catch (error) {
+      console.log(({error : error}));
+      
     }
 
-    this.messages.push({ role: 'user', content: message });
 
-    const response = await this.axiosInstance.post(
-      'https://gigachat.devices.sberbank.ru/api/v1/chat/completions',
-      {
-        model: 'GigaChat-2',
-        messages: this.messages,
-        stream: false,
-      },
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-          Authorization: `Bearer ${this.accessToken}`,
-        },
-      },
-    );
 
-    const aiResponse = response.data.choices[0].message;
-
-    this.messages.push(aiResponse);
-
-    return aiResponse;
+    
   }
 }
 
-module.exports = new ChatService();
+const aIService = new AIService();
+module.exports = aIService;
